@@ -1339,6 +1339,10 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
     */    
     pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
     pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+
+    if(pllm == 0){
+      return;
+    }
     
     if (pllsource != 0)
     {
