@@ -423,6 +423,10 @@ void I2S_Init(SPI_TypeDef* SPIx, I2S_InitTypeDef* I2S_InitStruct)
     /* Get the PLLM value */
     pllm = (uint32_t)(RCC->PLLCFGR & RCC_PLLCFGR_PLLM);
 
+    if(pllm == 0){
+      return;
+    }
+
     if((RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) == RCC_PLLCFGR_PLLSRC_HSE)
     {
       /* Get the I2S source clock value */
