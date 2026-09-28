@@ -234,7 +234,10 @@ uint8_t ucFlash_Compare(uint32_t ulFlashAddr, uint8_t *pucBuf, uint32_t ulSize)
 uint8_t ucFlash_Write(uint32_t ulFlashAddr, uint8_t *pucSrc, uint32_t ulSize)
 {
 	uint8_t ucRet = 0x00;
-	
+	/* Ensure that pucSrc is not NULL pointer */
+	if (pucSrc == NULL) {
+		return 1;
+	}
 	/*如果偏移地址超过芯片容量，则不改写输出缓冲区*/
 	if (ulFlashAddr + ulSize > FLASH_BASE_ADDR + FLASH_SIZE)
 	{
