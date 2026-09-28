@@ -645,14 +645,28 @@ void st_qword (BYTE* ptr, QWORD val)	/* Store an 8-byte word in little-endian */
 static
 void mem_cpy (void* dst, const void* src, UINT cnt)
 {
-	BYTE *d = (BYTE*)dst;
-	const BYTE *s = (const BYTE*)src;
+    BYTE *d = (BYTE*)dst;
+    const BYTE *s = (const BYTE*)src;
 
-	if (cnt != 0) {
-		do {
-			*d++ = *s++;
-		} while (--cnt);
-	}
+    // Check if src and dst are the same
+    if (src != dst) {
+        if (cnt != 0) {
+            // Check for overlap: if destination is before source, copy forwards
+            if (d < s || d >= s + cnt) {
+                // No overlap, safe to copy forwards
+                do {
+                    *d++ = *s++;
+                } while (--cnt);
+            } else {
+                // Overlap detected, copy backwards
+                d += cnt - 1;
+                s += cnt - 1;
+                do {
+                    *d-- = *s--;
+                } while (--cnt);
+            }
+        }
+    }
 }
 
 
